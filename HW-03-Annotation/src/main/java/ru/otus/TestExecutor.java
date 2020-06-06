@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class TestExecutor {
 
-    public static void testExecutor(Class clazz) {
+    public static void testExecutor(Class clazz) throws NoSuchMethodException {
 
         Method[] methods = clazz.getMethods();
         Method[] methodsBefore = getMethodsByAnnotation(methods, Before.class);
@@ -22,12 +22,7 @@ public class TestExecutor {
         int countPass = 0;
         int countFail = 0;
 
-        Constructor<MyTest> constructor = null;
-        try {
-            constructor = clazz.getConstructor();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        Constructor<MyTest> constructor = clazz.getConstructor();
 
         for (Method method: methodsTest) {
             try {
@@ -48,11 +43,11 @@ public class TestExecutor {
         printReport(countPass, countFail);
     }
 
-    private static Method[] getMethodsByAnnotation(Method[] methods, Object annotation) {
+    private static Method[] getMethodsByAnnotation(Method[] methods, Class<? extends Annotation> annotation) {
         Method[] methodsNew = new Method[methods.length];
         int j = 0;
         for (int i = 0; i<methods.length; i++) {
-            if (methods[i].isAnnotationPresent((Class<? extends Annotation>) annotation)) {
+            if (methods[i].isAnnotationPresent(annotation)) {
                 methodsNew[j] = methods[i];
                 System.out.println(methodsNew[j].toString());
                 j++;
