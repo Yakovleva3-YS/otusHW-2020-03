@@ -1,6 +1,7 @@
 package ru.otus;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class DIYarrayList<T> implements List<T> {
 
@@ -47,7 +48,7 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public ListIterator<T> listIterator() {
-        throw new UnsupportedOperationException("The method is not implemented");
+        return new ListItr(0);
     }
 
     public void sort(Comparator<? super T> c){
@@ -142,5 +143,80 @@ public class DIYarrayList<T> implements List<T> {
     @Override
     public void add(int index, T element) {
         throw new UnsupportedOperationException("The method is not implemented");
+    }
+
+    private class Itr implements Iterator<T> {
+        int cursor;
+        int lastRet = -1;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != size;
+        }
+
+        @Override
+        public T next() {
+            int i = cursor;
+            if (i >= size)
+                throw new NoSuchElementException();
+            Object[] elementData = DIYarrayList.this.elements;
+            if (i >= elementData.length)
+                throw new ConcurrentModificationException();
+            cursor = i + 1;
+            return (T) elementData[lastRet = i];
+        }
+    }
+
+    private class ListItr extends Itr implements ListIterator<T> {
+        ListItr(int index) {
+            super();
+            cursor = index;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
+
+        @Override
+        public T previous() {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
+
+        @Override
+        public int nextIndex() {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
+
+        @Override
+        public int previousIndex() {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
+
+        @Override
+        public void set(T t) {
+            if (lastRet < 0)
+                throw new IllegalStateException();
+            try {
+                DIYarrayList.this.set(lastRet, t);
+            } catch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        @Override
+        public void add(T t) {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super T> action) {
+            throw new UnsupportedOperationException("The method is not implemented");
+        }
     }
 }

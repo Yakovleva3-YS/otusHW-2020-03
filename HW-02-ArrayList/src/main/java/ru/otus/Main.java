@@ -27,15 +27,15 @@ public class Main {
 
     public static void testCopy() {
         System.out.println("----Test copy----");
-        List<Integer> array = new ArrayList<>();
+        List<Integer> array = new DIYarrayList<>();
         for (int i = 0; i<22; i++) {
             array.add(i);
         }
-        List<Integer> array2 = new ArrayList<>();
+        List<Integer> arraySrc = new DIYarrayList<>();
         for (int i = 0; i<22; i++) {
-            array2.add(i+100);
+            arraySrc.add(i+100);
         }
-        Collections.copy(array, array2);
+        Collections.copy(array, arraySrc);
 
         for(int i=0; i<array.size(); i++) {
             System.out.println(array.get(i));
