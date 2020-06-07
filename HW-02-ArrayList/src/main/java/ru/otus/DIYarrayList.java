@@ -51,10 +51,6 @@ public class DIYarrayList<T> implements List<T> {
         return new ListItr(0);
     }
 
-    public void sort(Comparator<? super T> c){
-        Arrays.sort((T[])elements, 0, size, c);
-    }
-
     @Override
     public ListIterator<T> listIterator(int index) {
         throw new UnsupportedOperationException("The method is not implemented");
@@ -77,7 +73,7 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException("The method is not implemented");
+        return Arrays.copyOf(elements, size);
     }
 
     @Override
