@@ -21,6 +21,7 @@ public class Ioc {
 
     static class DemoInvocationHandler implements InvocationHandler {
         private final TestLoggingInterface testLogging;
+        private Set<Method> methodsAnnotatedLog = getMethodsAnnotLog();
 
         DemoInvocationHandler(TestLoggingInterface testLogging) {
             this.testLogging = testLogging;
@@ -28,15 +29,19 @@ public class Ioc {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Reflections reflections = new Reflections(Demo.class.getPackage().getName(), new MethodAnnotationsScanner());
-            Set<Method> methods = reflections.getMethodsAnnotatedWith(Log.class);
 
-            for(Method mtd: methods) {
+            for(Method mtd: methodsAnnotatedLog) {
                 if (mtd.equals(method)) {
                     System.out.println("invoking method:" + method);
+                    break;
                 }
             }
             return method.invoke(testLogging, args);
+        }
+
+        private static Set<Method> getMethodsAnnotLog() {
+            Reflections reflections = new Reflections(Demo.class.getPackage().getName(), new MethodAnnotationsScanner());
+            return reflections.getMethodsAnnotatedWith(Log.class);
         }
 
         @Override

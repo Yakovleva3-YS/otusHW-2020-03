@@ -14,6 +14,6 @@ public class TestLogging implements TestLoggingInterface{
 
     @Override
     public void square(int param) {
-        System.out.println("calculation, param:" + param);
+        System.out.println("square, param:" + param);
     }
 }
