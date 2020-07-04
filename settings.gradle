@@ -4,5 +4,6 @@ rootProject.name = 'otusJava'
 include 'HW-01'
 include 'HW-02-ArrayList'
 include 'HW-03-Annotation'
+include 'HW-05-Logger'
 include 'HW-06-ATM'
 
