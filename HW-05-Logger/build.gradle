@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+}
+
+shadowJar {
+    archiveBaseName.set('gradleLogger')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.Demo'
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
